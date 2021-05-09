@@ -1,0 +1,20 @@
+[feed]
+from = [
+    "info@spam1.com",
+    "newsletter@spam2.com"
+    ]
+
+subject = []
+
+[papertrail]
+from = []
+
+subject = []
+
+[trash]
+from = []
+
+; \ in a RegEx String need to bee escaped in the JSON Array
+subject = [
+    "Regex for subject to be deleted"
+    ]

@@ -26,8 +26,6 @@ with the IMAP filters I tried before.
    chmod 600 imapfilter.conf
    vi imapfilter.conf
    ```
-1. Edit the filter rules in the `apply_rules` function
-   of `imapfilter.py`. You might also want to have a
-   look at the constants at the beginning of the file.
+1. Edit the filter rules in the `screener.conf` file.
 1. After testing, you might want to autostart 
    `imapfilter.py` using systemd on a linux box.
