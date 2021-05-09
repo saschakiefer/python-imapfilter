@@ -1,0 +1,12 @@
+[Unit]
+Description=Email Screener
+After=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/mail_screener/
+ExecStart=/home/pi/mail_screener/imapfilter.py
+Restart=always
+
+[Install]
+WantedBy=default.target

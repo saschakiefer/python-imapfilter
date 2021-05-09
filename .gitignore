@@ -103,3 +103,4 @@ ENV/
 
 imapfilter.conf
 screener.conf
+deploy.sh

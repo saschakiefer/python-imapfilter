@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 """
 imapfilter.py
 
@@ -16,7 +17,7 @@ from datetime import datetime
 
 import json
 
-loglevel = logging.INFO
+loglevel = logging.ERROR
 imapclient_loglevel = 1
 polling_interval_s = 60
 fullupdate_interval_s = 3600

@@ -29,3 +29,16 @@ with the IMAP filters I tried before.
 1. Edit the filter rules in the `screener.conf` file.
 1. After testing, you might want to autostart 
    `imapfilter.py` using systemd on a linux box.
+
+# Configure as `systemd`
+1. Change directory to `cd /etc/systemd/system`
+1. Create a link to `mail-screener.service`: `sudo ln -s /home/pi/mail_screener/mail-screener.service mail-screener.service`
+1. Modify access: `sudo chmod 664 mail-screener.service`
+
+## Test
+```shell
+sudo systemctl daemon-reload
+sudo systemctl start mail-screener.service
+sudo systemctl status mail-screener.service
+sudo systemctl stop mail-screener.service
+```
