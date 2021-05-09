@@ -25,14 +25,16 @@ restart_interval_s = 6 * 3600
 
 def apply_rules(msgs, uid, screener):
     def moved_by_header_field(header_field, search_regexp, to_folder):
-        """ Move the message to the specified folder, if the regex matches"""
+        """Move the message to the specified folder, if the regex matches"""
         msg = msgs.get(uid)
         field_value = msg.get(header_field)
 
         if header_field == "Subject":
             field_value_decoded = email.header.decode_header(field_value)[0]
 
-            if type(field_value_decoded[0]) != str:  # Convert a decoded utf-8 string into a value, regex likes
+            if (
+                type(field_value_decoded[0]) != str
+            ):  # Convert a decoded utf-8 string into a value, regex likes
                 field_value = field_value_decoded[0].decode(field_value_decoded[1])
 
         logging.info(field_value)
@@ -49,37 +51,38 @@ def apply_rules(msgs, uid, screener):
         return False
 
     def rule_applied(screener_section, screener_rule, field, target_foleder):
-        """ Checks every entry from the screener config against the message"""
-        for rule_definition in json.loads(screener.get(screener_section, screener_rule)):
+        """Checks every entry from the screener config against the message"""
+        for rule_definition in json.loads(
+            screener.get(screener_section, screener_rule)
+        ):
             if moved_by_header_field(field, rule_definition, target_foleder):
                 return True  # The rule was applied
 
         return False  # No match
 
     # The Feed by sender
-    if rule_applied('feed', 'from', 'From', '_The Feed'):
+    if rule_applied("feed", "from", "From", "_The Feed"):
         return
 
     # The Feed by subject
-    if rule_applied('feed', 'subject', 'Subject', '_The Feed'):
+    if rule_applied("feed", "subject", "Subject", "_The Feed"):
         return
 
     # Papertrail by sender
-    if rule_applied('papertrail', 'from', 'From', '_Paper Trail'):
+    if rule_applied("papertrail", "from", "From", "_Paper Trail"):
         return
 
     # Papertrail by subject
-    if rule_applied('papertrail', 'subject', 'Subject', '_Paper Trail'):
+    if rule_applied("papertrail", "subject", "Subject", "_Paper Trail"):
         return
 
     # Trash by sender
-    if rule_applied('trash', 'from', 'From', 'Papierkorb'):
+    if rule_applied("trash", "from", "From", "Papierkorb"):
         return
 
     # Trash by subject
-    if rule_applied('trash', 'subject', 'Subject', 'Papierkorb'):
+    if rule_applied("trash", "subject", "Subject", "Papierkorb"):
         return
-
 
 
 class Messages:
