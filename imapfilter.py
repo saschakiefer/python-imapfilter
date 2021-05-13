@@ -19,7 +19,7 @@ import json
 
 loglevel = logging.ERROR
 imapclient_loglevel = 1
-polling_interval_s = 60
+polling_interval_s = 300
 fullupdate_interval_s = 3600
 restart_interval_s = 6 * 3600
 
@@ -30,15 +30,19 @@ def apply_rules(msgs, uid, screener):
         msg = msgs.get(uid)
         field_value = msg.get(header_field)
 
+        logging.debug(f"Processing: {field_value}")
+
         if header_field == "Subject":
-            field_value_decoded = email.header.decode_header(field_value)[0]
+            try:
+                field_value_decoded = email.header.decode_header(field_value)[0]
 
-            if (
-                type(field_value_decoded[0]) != str
-            ):  # Convert a decoded utf-8 string into a value, regex likes
-                field_value = field_value_decoded[0].decode(field_value_decoded[1])
-
-        logging.info(field_value)
+                if (
+                    type(field_value_decoded[0]) != str
+                ):  # Convert a decoded utf-8 string into a value, regex likes
+                    field_value = field_value_decoded[0].decode(field_value_decoded[1])
+            except:
+                # In case of decoding error (mostly spam), stick with the original value
+                pass
 
         if re.search(search_regexp, field_value, re.IGNORECASE):
             logging.info(
